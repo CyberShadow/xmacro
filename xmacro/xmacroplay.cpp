@@ -456,6 +456,7 @@ void eventLoop (Display * RemoteDpy, int RemoteScreen) {
 	  b=0;
 	  while(str[b]) sendChar(RemoteDpy, str[b++]);
 	}
+	else if (ev[0]!=0) cout << "Unknown tag: " << ev << endl;
 
 	// sync the remote server
 	XFlush ( RemoteDpy );
