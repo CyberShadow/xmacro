@@ -28,4 +28,4 @@
 #
 #
 #
-DEFAULT (touch $CVSROOT/CVSROOT/val-tags ; chmod 0664 $CVSROOT/CVSROOT/val-tags)
+DEFAULT (chown -R jhartmann:xmacro $CVSROOT/CVSROOT; touch $CVSROOT/CVSROOT/val-tags ; chmod 0664 $CVSROOT/CVSROOT/val-tags)
