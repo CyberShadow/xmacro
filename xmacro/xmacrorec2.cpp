@@ -40,6 +40,7 @@
  ****************************************************************************/
 #include <stdio.h>		
 #include <stdlib.h>
+#include <signal.h>
 #include <X11/Xlibint.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -560,7 +561,9 @@ int main (int argc, char * argv[]) {
 	// show the user which key will be used
 	cerr << "The used quit-key has the keycode: " << QuitKey << endl;
   }
-  
+
+  signal(SIGINT,SIG_IGN);  
+
   // start the main event loop
   eventLoop ( LocalDpy, LocalScreen, RecDpy, QuitKey );
 
