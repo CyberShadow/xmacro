@@ -26,4 +26,5 @@
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 #
 #
-DEFAULT touch val-tags ; chmod 0664 val-tags
+#
+DEFAULT (touch $CVSROOT/CVSROOT/val-tags ; chmod 0664 $CVSROOT/CVSROOT/val-tags)
