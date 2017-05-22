@@ -1,21 +1,27 @@
-VERSION=0.3
+#Q				= @
+VERSION			= 0.4.1
+CFLAGS			= -O2 -g -D_GNU_SOURCE
+PROGRAMS		= xmacrorec2 xmacroplay 
+CONFIG_C		= config1.c
+all: $(PROGRAMS) 
 
-all: xmacroplay xmacrorec xmacrorec2
-
-xmacroplay: xmacroplay.cpp chartbl.h
-	g++ -O2  -I/usr/X11R6/include -Wall -pedantic -DVERSION=$(VERSION) xmacroplay.cpp -o xmacroplay -L/usr/X11R6/lib -lXtst -lX11
-
-xmacrorec: xmacrorec.cpp
-	g++ -O2  -I/usr/X11R6/include -Wall -pedantic -DVERSION=$(VERSION) xmacrorec.cpp -o xmacrorec -L/usr/X11R6/lib -lXtst -lX11
-
-xmacrorec2: xmacrorec2.cpp
-	g++ -O2  -I/usr/X11R6/include -Wall -pedantic -DVERSION=$(VERSION) xmacrorec2.cpp -o xmacrorec2 -L/usr/X11R6/lib -lXtst -lX11
+%: %.c $(CONFIG_C) chartbl.h Makefile
+	$(info ==> Compinging: $@)	
+	$(Q)$(CC) $(CFLAGS)  -I/usr/X11R6/include -Wall -DVERSION=\"$(VERSION)\"  -DPROG="\"$@\"" $<  $(CONFIG_C) -o $@ -L/usr/X11R6/lib -lX11 -lXtst 
 
 clean:
-	rm xmacrorec xmacroplay xmacrorec2
+	$(Q)rm $(PROGRAMS)
 
 deb:
 	umask 022 && epm -f deb -nsm xmacro
 
 rpm:
 	umask 022 && epm -f rpm -nsm xmacro
+dist:
+	mkdir xmacro-$(VERSION)
+	cp *.list *.c *.h Makefile README COPYING xmacro-$(VERSION)/
+	cp -r doc/ xmacro-$(VERSION)/
+	tar  -cvvf xmacro-$(VERSION).tar xmacro-$(VERSION)
+
+	gzip xmacro-$(VERSION).tar
+	rm -rf xmacro-$(VERSION)
