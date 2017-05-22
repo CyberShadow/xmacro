@@ -365,6 +365,11 @@ void eventCallback (XPointer priv, XRecordInterceptData * d)
 
 		case ButtonRelease:
 			/* button released, create event */
+			if (last_time != 0)
+			{
+				fprintf (fdout, "Delay %i\n",(int) (d->server_time - last_time));
+			}
+			last_time = d->server_time;
 			if (p->mmoved)
 			{
 				fprintf (fdout, MOTION_NOTIFY" %i %i\n", p->x, p->y);
@@ -546,8 +551,8 @@ int main (int argc, char *argv[])
 		}
 		free(filename);
 	}                                                                                               	
-	
-	
+
+
 	/* parse commandline arguments */
 	parseCommandLine (argc, argv);
 	/* set default output to stdout */

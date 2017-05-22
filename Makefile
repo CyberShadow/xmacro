@@ -1,5 +1,5 @@
 #Q				= @
-VERSION			= 0.4.1
+VERSION			= 0.4.5
 CFLAGS			= -O2 -g -D_GNU_SOURCE
 PROGRAMS		= xmacrorec2 xmacroplay 
 CONFIG_C		= config1.c

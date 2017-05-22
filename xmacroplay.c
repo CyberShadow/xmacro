@@ -19,6 +19,10 @@
 
 #include "chartbl.h"
 #include "FieldNames.h"
+/* Strings */
+char **string_split(char *path);
+void string_split_free(char **retv);
+
 /* Config object */
 config_obj *cfg = NULL;
 /**
@@ -352,13 +356,15 @@ void eventLoop (Display * RemoteDpy, int RemoteScreen) {
 			{ 
 				/* This should be fine, even with the fork, it's just reading.. */
 				char *filename = cfg_get_single_value_as_string_with_default(cfg, "Programs", "Screenshot","import -window root");
-				char **argvs=NULL;//[] = {filename,"-window" ,"root", buffer ,NULL};
+				char *file = cfg_get_single_value_as_string_with_default(cfg, "Programs", "filename","%T-%d-%m-%Y.png");
+				char **argvs=NULL;
 				int ind=1,iter;
 				char buffer[64];
 				time_t tim = time(NULL);
 				struct tm *lt = gmtime(&tim); 
 
-				strftime(buffer, 64, "%T-%d-%m-%Y.png", lt);
+				strftime(buffer, 64, file,lt);
+				free(file);
 
 
 
@@ -401,8 +407,9 @@ void eventLoop (Display * RemoteDpy, int RemoteScreen) {
 			fprintf (stderr, "Exec '%s' blocking\n",script);			
 			if ((pid=fork()) == 0)
 			{
-				char *argv[2] = {script, NULL};
+				char **argv= string_split(script); 
 				execvp(argv[0], argv);
+				string_split_free(argv);
 				free(script);
 				exit(1);
 			}
@@ -416,8 +423,9 @@ void eventLoop (Display * RemoteDpy, int RemoteScreen) {
 			fprintf (stderr, "Exec '%s' non-blocking\n",script);			
 			if ((pid=fork()) == 0)
 			{
-				char *argv[2] = {script, NULL};
+				char **argv= string_split(script); 
 				execvp(argv[0], argv);
+				string_split_free(argv);
 				free(script);
 				exit(1);
 			}
@@ -564,7 +572,39 @@ int main (int argc, char * argv[])
 	exit ( EXIT_SUCCESS );
 }
 
+/**
+ * String splitting
+ */
+
+char ** string_split(char *path)
+{
+	char *ptr;
+	char **retv = NULL;
+	int items = 0;
+	if(path == NULL)
+		return NULL;
+
+	ptr = strtok(path," ");
+	while(ptr != NULL )
+	{
+		items++;
+		/* make space */
+		retv = realloc(retv,(items+1)*sizeof(char *));
+		retv[items] = NULL;
+		retv[items-1] = strdup(ptr);
+		/* get next token */
+		ptr = strtok(NULL, " ");
+	}
+
+	return retv;
+}
 
 
-
-
+void string_split_free(char **retv)
+{
+	int i=0;
+	/* look all strings */
+	for(i=0;retv[i] != NULL;i++)free(retv[i]);
+	/* free the array */
+	free(retv);
+}

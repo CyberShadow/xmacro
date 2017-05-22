@@ -65,10 +65,6 @@ ExecBlock [command]
 ~~~~~~~~~~~~~~~~~~~
 Executes the [command], and wait until it finished.
 
-NOTE: It does not support command parameters yet.
-
 ExecNonBlock [command]
 ~~~~~~~~~~~~~~~~~~~~~~
 Executes the [command], but continues withouth waiting until it finished.
-
-NOTE: It does not support command parameters yet.
