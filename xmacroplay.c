@@ -313,7 +313,8 @@ void eventLoop (Display * RemoteDpy, int RemoteScreen) {
 
 	while ( fgets(ev,200,fdin)) {
 		/* terminate the string */
-		ev[strlen(ev)-1] = '\0';
+		if(ev[strlen(ev)-1] == '\n')
+			ev[strlen(ev)-1] = '\0';
 		if (ev[0]=='#')
 		{
 			continue;
