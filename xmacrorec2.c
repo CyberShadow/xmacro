@@ -343,19 +343,27 @@ void eventCallback (XPointer priv, XRecordInterceptData * d)
 		goto returning;
 	}
 
+	switch (type)
+	{
+		case ButtonPress:
+		case ButtonRelease:
+		case MotionNotify:
+		case KeyPress:
+		case KeyRelease:
+			if (last_time != 0)
+				fprintf (fdout, "Delay %i\n",(int) (d->server_time - last_time));
+			last_time = d->server_time;
+			break;
+	}
+
 	/* what did we get? */
 	switch (type)
 	{
 		case ButtonPress:
 			if (p->mmoved)
 			{
-				if (last_time != 0)
-				{
-					fprintf (fdout, "Delay %i\n",(int) (d->server_time - last_time));
-				}
 				fprintf (fdout, MOTION_NOTIFY" %i %i\n", p->x, p->y);
 				p->mmoved = 0;
-				last_time = d->server_time;
 			}
 			if (p->Status2 < 0)
 				p->Status2 = 0;
@@ -365,11 +373,6 @@ void eventCallback (XPointer priv, XRecordInterceptData * d)
 
 		case ButtonRelease:
 			/* button released, create event */
-			if (last_time != 0)
-			{
-				fprintf (fdout, "Delay %i\n",(int) (d->server_time - last_time));
-			}
-			last_time = d->server_time;
 			if (p->mmoved)
 			{
 				fprintf (fdout, MOTION_NOTIFY" %i %i\n", p->x, p->y);
@@ -415,12 +418,7 @@ void eventCallback (XPointer priv, XRecordInterceptData * d)
 					fprintf (fdout, MOTION_NOTIFY" %i %i\n", p->x, p->y);
 					p->mmoved = 0;
 				}
-				if (last_time != 0)
-				{
-					fprintf (fdout, DELAY" %i\n", (int)(d->server_time - last_time));
-				}
 				fprintf (fdout, KEY_STR_PRESS" %s\n", XKeysymToString (XKeycodeToKeysym(p->LocalDpy, detail, 0)));
-				last_time = d->server_time;
 			}
 			break;
 
