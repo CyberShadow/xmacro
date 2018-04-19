@@ -33,7 +33,7 @@ FILE *fdin = NULL;
 /***************************************************************************** 
  * Globals...
  ****************************************************************************/
-int   Delay = 10;
+int   Delay = 0;
 float Scale = 1.0;
 char * Remote;
 
@@ -51,7 +51,7 @@ void usage (const int exitCode)
 	fprintf (stderr, "Usage: %s [options]\n", PROG);
 	fprintf (stderr, "Options:\n");
 	fprintf (stderr,
-			"  -d DELAY   		delay in milliseconds for events sent to remote display. (default 10ms)\n"\
+			"  -d DELAY   		delay in milliseconds for events sent to remote display. (default 0)\n"\
 			"  --speed SPEED	Playback speed. 0.5 is twice as fast. 2 is 1/2 speed"\
 			"  -s  	FACTOR  	scalefactor for coordinates. Default: 1.0.\n"\
 			"  -v          		show version. \n"\
