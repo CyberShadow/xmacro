@@ -194,8 +194,20 @@ static void cfg_open_parse_file(config_obj *cfgo, FILE *fp)
 config_obj *cfg_open(char *url)
 {
 	config_obj *cfgo = NULL;
+        char *initpath = INIT_PATH;
+        char initfile[400];
+
 	/* check if there is an url passed */
 	if(url == NULL)
+	{
+		return NULL;
+	}
+
+	if (! *initpath)
+		initpath = getenv("HOME");
+
+	snprintf(initfile, sizeof initfile, "%s/%s", initpath, url);
+	if(initfile == NULL)
 	{
 		return NULL;
 	}
@@ -206,7 +218,7 @@ config_obj *cfg_open(char *url)
 	{
 		return NULL;
 	}
-	cfgo->url = strdup(url);
+	cfgo->url = strdup(initfile);
 	cfgo->root = NULL;
 	cfgo->total_size = sizeof(config_obj)+strlen(cfgo->url);
 

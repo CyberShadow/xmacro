@@ -7,6 +7,8 @@
 typedef struct _config_obj config_obj;
 
 #define INIT_FILE ".xmacro.ini"
+/* default: $HOME */
+#define INIT_PATH ""
 
 /**
  * open the config file

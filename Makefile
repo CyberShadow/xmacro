@@ -5,7 +5,7 @@ PROGRAMS		= xmacrorec2 xmacroplay
 CONFIG_C		= config1.c
 all: $(PROGRAMS) 
 
-%: %.c $(CONFIG_C) chartbl.h Makefile
+%: %.c $(CONFIG_C) chartbl.h Makefile config1.h
 	$(info ==> Compinging: $@)	
 	$(Q)$(CC) $(CFLAGS)  -I/usr/X11R6/include -Wall -DVERSION=\"$(VERSION)\"  -DPROG="\"$@\"" $<  $(CONFIG_C) -o $@ -L/usr/X11R6/lib -lX11 -lXtst 
 
