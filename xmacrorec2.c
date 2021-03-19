@@ -405,6 +405,8 @@ void eventCallback (XPointer priv, XRecordInterceptData * d)
 			/* should we stop looping, i.e. did the user press the quitkey? */
 			if (HasQuitKey && detail == QuitKey)
 			{
+				fprintf (fdout, MOTION_NOTIFY" %i %i\n", rootx, rooty);
+
 				/* yep, no more loops */
 				fprintf (stderr, "Got QuitKey, so exiting...\n");
 				p->doit = 0;
