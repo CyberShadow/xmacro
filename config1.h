@@ -6,6 +6,8 @@
 
 typedef struct _config_obj config_obj;
 
+#define INIT_FILE ".xmacro.ini"
+
 /**
  * open the config file
  */

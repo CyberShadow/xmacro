@@ -533,7 +533,7 @@ int main (int argc, char *argv[])
 {
 	char *filename;
 	int Major, Minor;
-	cfg = cfg_open("xmacro.ini");
+	cfg = cfg_open(INIT_FILE);
 	/* Load some defaults */
 	Scale = cfg_get_single_value_as_float_with_default(cfg, "Record", "scale",1.0);
 	HasQuitKey = cfg_get_single_value_as_int_with_default(cfg, "Record", "hasQuitKey",false);

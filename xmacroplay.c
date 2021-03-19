@@ -522,7 +522,7 @@ int main (int argc, char * argv[])
 {
 	char *filename = NULL;
 	/* Open the configuration file */
-	cfg = cfg_open("xmacro.ini"); 
+	cfg = cfg_open(INIT_FILE);
 
 	/* Load default values from config */
 	speed = cfg_get_single_value_as_float_with_default(cfg, "Playback", "speed",1.0);
