@@ -345,9 +345,12 @@ void eventCallback (XPointer priv, XRecordInterceptData * d)
 
 	switch (type)
 	{
+		case MotionNotify:
+			if (! p->Status2)
+                                break;
+
 		case ButtonPress:
 		case ButtonRelease:
-		case MotionNotify:
 		case KeyPress:
 		case KeyRelease:
 			if (last_time != 0)
